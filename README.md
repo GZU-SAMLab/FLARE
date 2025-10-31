@@ -11,13 +11,13 @@ To support real-world applicability, we construct a comprehensive dataset of com
 Extensive experimental results demonstrate that our method achieves at least a 3.11\% improvement in severity prediction accuracy compared to existing assessment models, confirming the effectiveness and practical potential of FLARE for disease severity assessment.
 
 # Framework
-![Framework](imgs/overview.png)
+![Framework](imgs/overview.jpg)
 
 # LGR-Net
-![Fast Fourier Attention Module (FFA-Module)](imgs/FFA.png)
+![Fast Fourier Attention Module (FFA-Module)](imgs/FFA.jpg)
 
 # HLFA-Net
-![Vision Relational Modeling Module (VRM-Module)](imgs/VRM.png)
+![Vision Relational Modeling Module (VRM-Module)](imgs/VRM.jpg)
 
 # Environment
 You can create a new Conda environment by running the following command:
@@ -58,7 +58,7 @@ python trainL2RA_Val.py --model_path_classifier ./checkpoint/ERMA-Net.pth
 
 
 # Result
-![result](imgs/result.png)
+![result](imgs/result.jpg)
 
 
 The website with relevant details of the paper: http://llrl.samlab.cn/home.html
