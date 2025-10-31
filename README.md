@@ -20,18 +20,29 @@ Extensive experimental results demonstrate that our method achieves at least a 3
 ![Vision Relational Modeling Module (VRM-Module)](imgs/VRM.jpg)
 
 # Environment
-You can create a new Conda environment by running the following command:
+You can create a new Conda environment by running the following dependencies:
 ```
-    pip install -r requirements.txt
+        CUDA 11.8
+        Python 3.8 (or later)
+        torch==1.13.1
+        torchaudio==0.13.1
+        torchcam==0.3.2
+        torchgeo==0.4.1
+        torchmetrics==0.11.4
+        torchvision==0.14.1
+        numpy==1.21.6
+        Pillow==9.2.0
+        einops==0.6.0
+        opencv-python==4.6.0.66
 ```
 
 # Dataset
 Only the test set of the plant leaf disease severity assessment dataset is publicly available, but the training set will be made public when the paper is accepted. Download the dataset to the './dataset/grade' folder. You can download the pre-trained weights in the following links:
-http://llrl.samlab.cn/
+http://flare.samlab.cn/
 
 # PreTrained Model
 The pre-trained FLLA-Net_Leaf, FLLA-Net_Lesion, and ERMA-Net models are linked below, and download them to the './weight' folder. You can download the pre-trained weights in the following links:
-http://llrl.samlab.cn/
+http://flare.samlab.cn/
 
 # Train
 Train FLLA-Net_Leaf.
