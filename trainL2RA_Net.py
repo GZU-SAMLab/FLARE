@@ -164,16 +164,16 @@ def load_pretrained_weights(model, checkpoint_path, model_name, device):
 def train_model(args, net, optimizer, scheduler, classification_loss_func, classifier, device, preprocess):
     # Dataset and DataLoader
     train_dataset = YourDataset(
-        txt_file='/home/xiaridehehe/ownProgram/ReMM/data_set/data3401/grade/train_data1.csv',
-        root_dir='/home/xiaridehehe/ownProgram/ReMM/data_set/data3401/grade/',
+        txt_file='./dataset/grade/train_data1.1.csv',
+        root_dir='./dataset/grade/',
         is_train=True, preprocess=preprocess
     )
     train_dataloader = data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=16)
     train_num = len(train_dataset)
 
     test_dataset = YourDataset(
-        txt_file='/home/xiaridehehe/ownProgram/ReMM/data_set/data3401/grade/val_data1.csv',
-        root_dir="/home/xiaridehehe/ownProgram/ReMM/data_set/data3401/grade/",
+        txt_file='./dataset/grade/val_data1.1.csv',
+        root_dir="./dataset/grade/",
         is_train=False, preprocess=preprocess
     )
     test_dataloader = data.DataLoader(test_dataset, batch_size=8, shuffle=True, num_workers=8)
@@ -269,9 +269,16 @@ def train_model(args, net, optimizer, scheduler, classification_loss_func, class
 
             # 保存最优模型
             if accuracy > best_accuracy:
-                checkpoint_path = f"/home/xiaridehehe/ownProgram/ReMM/Weight/L2RA-Ablation/weight0.1-1-1/classifier3_ckt.pth"
+                checkpoint_path = "./Weight/ERMA-Net/ERMA-Net.pth"
+                save_dir = os.path.dirname(checkpoint_path)
+
+                # 若文件夹不存在则新建
+                os.makedirs(save_dir, exist_ok=True)
+
+                # 保存模型
                 torch.save(classifier.state_dict(), checkpoint_path)
-                print(f"Checkpoint {epoch} saved.")
+                print(f"Checkpoint saved at epoch {epoch}.")
+
                 best_accuracy = accuracy
 
 # Main function

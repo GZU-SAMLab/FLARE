@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH -J ReMMData4301AuAttnFalse
+#SBATCH -J FLLA-Net
 #SBATCH -o /home/xiaridehehe/ownProgram/ChangeViT/result/out/train.out.%j
 #SBATCH -e /home/xiaridehehe/ownProgram/ChangeViT/result/err/train.err.%j
 #SBATCH --partition=gpu-l20

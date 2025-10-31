@@ -124,28 +124,24 @@ class YourDataset(data.Dataset):
         else:
             return image, torch.tensor(mapped_label), text_input, mapped_label, img_path  # ← 加上 img_path！
 
+
 def train_model(args, net, optimizer, scheduler, classification_loss_func, classifier, device, preprocess):
+    # 构建验证集
     test_dataset = YourDataset(
-        txt_file='/home/xiaridehehe/ownProgram/ReMM/data_set/data3401/grade/val_data1.csv',
-        root_dir="/home/xiaridehehe/ownProgram/ReMM/data_set/data3401/grade/",
+        txt_file='./dataset/grade/val_data1.csv',
+        root_dir="./dataset/grade/",
         is_train=False, preprocess=preprocess
     )
     test_dataloader = data.DataLoader(test_dataset, batch_size=8, shuffle=False, num_workers=8)
     val_num = len(test_dataset)
-    print(f"val_num:{val_num}")
+    print(f"val_num: {val_num}")
 
+    # 加载分类器参数
     load_classifier_weights(classifier, args.model_path_classifier, device)
     classifier.eval()
 
     correct = 0
     total = 0
-    class_correct = defaultdict(int)
-    class_total = defaultdict(int)
-    miss_dir = '/home/xiaridehehe/ownProgram/ReMM/img_out/miss_image1'
-    os.makedirs(miss_dir, exist_ok=True)
-
-    all_preds = []
-    all_targets = []
 
     with torch.no_grad():
         for images, label_tokens, text_tokens, class_label, img_paths in test_dataloader:
@@ -156,68 +152,20 @@ def train_model(args, net, optimizer, scheduler, classification_loss_func, class
                 class_label.to(device)
             )
 
-            label = classifier(images, train=False)
-            _, predicted = torch.max(label.data, 1)
-
-            all_preds.extend(predicted.cpu().numpy())
-            all_targets.extend(class_label.cpu().numpy())
+            # 推理预测
+            outputs = classifier(images, train=False)
+            _, predicted = torch.max(outputs.data, 1)
 
             total += class_label.size(0)
             correct += (predicted == class_label).sum().item()
 
-            for i in range(class_label.size(0)):
-                true_label = class_label[i].item()
-                pred_label = predicted[i].item()
-                class_total[true_label] += 1
-                if pred_label == true_label:
-                    class_correct[true_label] += 1
-                else:
-                    src_path = img_paths[i]
-                    dst_dir = os.path.join(miss_dir, str(true_label))
-                    os.makedirs(dst_dir, exist_ok=True)
-                    try:
-                        shutil.copy(src_path, dst_dir)
-                    except Exception as e:
-                        print(f"Failed to copy {src_path} to {dst_dir}: {e}")
+    # 计算平均准确率
+    accuracy = 100 * correct / total
+    print(f"Total samples: {total}")
+    print(f"Correct predictions: {correct}")
+    print(f"Average accuracy: {accuracy:.2f}%")
 
-    print(f"total:{val_num}, correct:{correct}")
-    accuracy = 100 * correct / val_num
-    print(f"accuracy:{accuracy:.2f}%")
-
-    print("Per-class accuracy:")
-    num_classes = max(class_total.keys()) + 1
-    for class_id in range(num_classes):
-        total_c = class_total[class_id]
-        correct_c = class_correct[class_id]
-        acc = 100 * correct_c / total_c if total_c > 0 else 0.0
-        print(f"Class {class_id}: {acc:.2f}% ({correct_c}/{total_c})")
-
-    class_names = ['Level 1', 'Level 3', 'Level 5', 'Level 7', 'Level 9']
-
-    # 计算混淆矩阵
-    cm = confusion_matrix(all_targets, all_preds)
-
-    plt.figure(figsize=(10, 8))
-
-    # 绘制热力图，设置注释字体大小 annot_kws
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
-                xticklabels=class_names, yticklabels=class_names,
-                annot_kws={"size": 16})  # 注释数字字体大小调大
-
-    # 坐标轴标签字体大小
-    plt.xlabel('Predicted Label', fontsize=16)
-    plt.ylabel('True Label', fontsize=16)
-
-    # 坐标轴刻度标签字体大小
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
-
-    # 标题字体大小
-    plt.title('Level-wise Classification Confusion Matrix', fontsize=18)
-
-    plt.tight_layout()
-    plt.savefig("confusion_matrix.png")
-    plt.show()
+    return accuracy
 
 def main():
     args = parse_args()
