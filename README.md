@@ -41,7 +41,7 @@ Only the test set of the plant leaf disease severity assessment dataset is publi
 http://flare.samlab.cn/
 
 # PreTrained Model
-The pre-trained FLLA-Net_Leaf, FLLA-Net_Lesion, and ERMA-Net models are linked below, and download them to the './weight' folder. You can download the pre-trained weights in the following links:
+The pre-trained FLLA-Net_Leaf, FLLA-Net_Lesion, and ERMA-Net models are linked below, and download them to the './checkpoint' folder. You can download the pre-trained weights in the following links:
 http://flare.samlab.cn/
 
 # Train
