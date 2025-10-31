@@ -37,7 +37,7 @@ You can create a new Conda environment by running the following dependencies:
 ```
 
 # Dataset
-Only the test set of the plant leaf disease severity assessment dataset is publicly available, but the training set will be made public when the paper is accepted. Download the dataset to the './dataset/grade' folder. You can download the pre-trained weights in the following links:
+Only the test set of the plant leaf disease severity assessment dataset is publicly available, but the training set will be made public when the paper is accepted. Download the dataset to the './dataset/' folder. You can download the this dataset in the following links:
 http://flare.samlab.cn/
 
 # PreTrained Model
