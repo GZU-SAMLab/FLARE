@@ -72,4 +72,4 @@ python trainL2RA_Val.py --model_path_classifier ./checkpoint/ERMA-Net.pth
 ![result](imgs/result.jpg)
 
 
-The website with relevant details of the paper: http://llrl.samlab.cn/home.html
+The website with relevant details of the paper: [http://flare.samlab.cn/home.html](http://flare.samlab.cn/)
